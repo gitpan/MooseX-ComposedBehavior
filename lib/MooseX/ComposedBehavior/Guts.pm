@@ -1,6 +1,6 @@
 package MooseX::ComposedBehavior::Guts;
 BEGIN {
-  $MooseX::ComposedBehavior::Guts::VERSION = '0.001';
+  $MooseX::ComposedBehavior::Guts::VERSION = '0.002';
 }
 use MooseX::Role::Parameterized;
 # ABSTRACT: the gooey, meaty bits that help MooseX::ComposedBehavior work
@@ -40,6 +40,11 @@ parameter context => (
   predicate => 'forces_context',
 );
 
+parameter method_order => (
+  isa     => enum([ qw(standard reverse) ]),
+  default => 'standard',
+);
+
 role {
   my ($p) = @_;
 
@@ -51,6 +56,7 @@ role {
   my $method_name  = $p->method_name;
   my $compositor   = $p->compositor;
   my $also_compose = $p->also_compose;
+  my $reverse      = $p->method_order eq 'reverse';
 
   method $method_name => sub {
     my $self    = shift;
@@ -59,10 +65,12 @@ role {
 
     my $wantarray = defined $wantarray ? $wantarray : wantarray;
 
-    foreach my $method (
-      reverse
-      Class::MOP::class_of($self)->find_all_methods_by_name($stub_name)
-    ) {
+    my @methods = Class::MOP::class_of($self)
+                ->find_all_methods_by_name($stub_name);
+
+    @methods = reverse @methods if $reverse;
+
+    foreach my $method (@methods) {
       my @array;
       $wantarray ? (@array = $method->{code}->execute($self, \@_, $results))
                  : (scalar $method->{code}->execute($self, \@_, $results));
@@ -90,7 +98,7 @@ MooseX::ComposedBehavior::Guts - the gooey, meaty bits that help MooseX::Compose
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 OVERVIEW
 

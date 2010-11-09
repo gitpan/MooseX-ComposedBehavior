@@ -22,7 +22,7 @@ requires:
   Sub::Exporter: 0
 resources:
   repository: git://git.codesimply.com/MooseX-ComposedBehavior.git
-version: 0.001
+version: 0.002
 x_Dist_Zilla:
   plugins:
     -
