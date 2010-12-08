@@ -26,10 +26,10 @@ my %WriteMakefileArgs = (
   'NAME' => 'MooseX::ComposedBehavior',
   'PREREQ_PM' => {
     'Moose::Util::TypeConstraints' => '0',
-    'MooseX::Role::Parameterized' => '0',
+    'MooseX::Role::Parameterized' => '0.21',
     'Sub::Exporter' => '0'
   },
-  'VERSION' => '0.002',
+  'VERSION' => '0.003',
   'test' => {
     'TESTS' => 't/*.t'
   }

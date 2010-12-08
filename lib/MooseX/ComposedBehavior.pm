@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package MooseX::ComposedBehavior;
 BEGIN {
-  $MooseX::ComposedBehavior::VERSION = '0.002';
+  $MooseX::ComposedBehavior::VERSION = '0.003';
 }
 # ABSTRACT: implement custom strategies for composing units of code
 
@@ -24,13 +24,18 @@ sub _build_composed_behavior {
   my $stub_name  = 'MooseX_ComposedBehavior_' . $i++ . "_$sugar_name";
 
   my $role = MooseX::ComposedBehavior::Guts->meta->generate_role(
+    ($arg->{role_name} ? (package => $arg->{role_name}) : ()),
     parameters => {
       stub_method_name => $stub_name,
       compositor       => $arg->{compositor},
       method_name      => $arg->{method_name},
-      also_compose     => $arg->{also_compose},
 
-      (defined $arg->{method_order} ? (method_order => $arg->{method_order})
+      (defined $arg->{also_compose}
+        ? (also_compose => $arg->{also_compose})
+        : ()),
+
+      (defined $arg->{method_order}
+        ? (method_order => $arg->{method_order})
         : ()),
 
       (defined $arg->{context} ? (context => $arg->{context}) : ()),
@@ -93,7 +98,7 @@ MooseX::ComposedBehavior - implement custom strategies for composing units of co
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 OVERVIEW
 

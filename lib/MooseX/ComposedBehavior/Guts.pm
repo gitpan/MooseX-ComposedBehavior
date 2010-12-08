@@ -1,8 +1,8 @@
 package MooseX::ComposedBehavior::Guts;
 BEGIN {
-  $MooseX::ComposedBehavior::Guts::VERSION = '0.002';
+  $MooseX::ComposedBehavior::Guts::VERSION = '0.003';
 }
-use MooseX::Role::Parameterized;
+use MooseX::Role::Parameterized 0.21;
 # ABSTRACT: the gooey, meaty bits that help MooseX::ComposedBehavior work
 
 
@@ -98,7 +98,7 @@ MooseX::ComposedBehavior::Guts - the gooey, meaty bits that help MooseX::Compose
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 OVERVIEW
 
