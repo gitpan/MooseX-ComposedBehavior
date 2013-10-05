@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 package MooseX::ComposedBehavior;
-BEGIN {
-  $MooseX::ComposedBehavior::VERSION = '0.003';
+{
+  $MooseX::ComposedBehavior::VERSION = '0.004';
 }
 # ABSTRACT: implement custom strategies for composing units of code
 
@@ -76,12 +76,19 @@ sub _build_composed_behavior {
       INIT => sub {
         my $target = $_[1]{into};
         $_[0] = { target => $target };
+
+        # Applying roles to the target fails mysteriously if it is not (yet)
+        # something to which roles can be applied, for example if the "use
+        # Moose" decl appears after "use MooseX::ComposedBehavior" [MJD]
+        Moose::Util::find_meta($target)
+            or Carp::confess(__PACKAGE__ .
+                      ": target package '$target' is not a Moose class");
         Moose::Util::apply_all_roles($target, $role);
         return 1;
       },
     },
   });
-  
+
   $sub{import} = $import;
 
   return \%sub;
@@ -90,6 +97,7 @@ sub _build_composed_behavior {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -98,7 +106,7 @@ MooseX::ComposedBehavior - implement custom strategies for composing units of co
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 OVERVIEW
 
@@ -303,10 +311,9 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Ricardo Signes.
+This software is copyright (c) 2013 by Ricardo Signes.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

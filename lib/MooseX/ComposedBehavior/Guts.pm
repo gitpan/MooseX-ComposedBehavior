@@ -1,6 +1,6 @@
 package MooseX::ComposedBehavior::Guts;
-BEGIN {
-  $MooseX::ComposedBehavior::Guts::VERSION = '0.003';
+{
+  $MooseX::ComposedBehavior::Guts::VERSION = '0.004';
 }
 use MooseX::Role::Parameterized 0.21;
 # ABSTRACT: the gooey, meaty bits that help MooseX::ComposedBehavior work
@@ -90,6 +90,7 @@ role {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -98,7 +99,7 @@ MooseX::ComposedBehavior::Guts - the gooey, meaty bits that help MooseX::Compose
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 OVERVIEW
 
@@ -115,10 +116,9 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Ricardo Signes.
+This software is copyright (c) 2013 by Ricardo Signes.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
